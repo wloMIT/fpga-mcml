@@ -1,0 +1,118 @@
+
+   if(tmj_read_data_ack)
+      tmj_read_data_bit_count <= 0;
+
+end
+         
+
+wire tmj_tck, tmj_shift_dr, tmj_capture_dr, tmj_e1dr;
+wire [1:0]  tmj_ir;
+reg tmj_bypass_reg, tmj_tdo;
+wire tmj_tdi;
+
+reg tmj_bitflip_tck;
+reg tmj_bitflip_clk, tmj_bitflip_clk_delay1, tmj_bitflip_clk_delay2;
+reg tmj_tdi_clk, tmj_shift_dr_clk, tmj_e1dr_clk;
+reg [1:0] tmj_ir_clk;
+
+
+always @(posedge XXXclkXXX) begin
+
+   tmj_from_user_ram_we <= 0;
+   tmj_new_command_available <= 0;
+
+   if(tmj_bitflip_clk_delay2 != tmj_bitflip_clk_delay1) begin
+
+      if(tmj_ir_clk == 2) begin
+         if(tmj_shift_dr_clk || tmj_e1dr_clk) begin
+
+            // Shift new bits into the tmj_from_user_buf.  Any bits that fall off
+            // the end are shifted into the tmj_from_user_ram.
+
+            tmj_from_user_ram_data <= tmj_from_user_buf[0];
+            tmj_from_user_ram_we <= 1;
+            if(tmj_from_user_ram_write_addr == TMJ_FROM_USER_RAM_END) begin
+               tmj_from_user_ram_write_addr <= 0;
+            end
+            else begin
+               tmj_from_user_ram_write_addr <= tmj_from_user_ram_write_addr + 1;
+            end
+
+            tmj_from_user_buf = { tmj_tdi_clk, tmj_from_user_buf[TMJ_COMMAND_WIDTH-1:1] };
+         end
+
+         if(tmj_e1dr_clk) begin
+
+            // The last bit of the next command has arrived
+
+            tmj_new_command = tmj_from_user_buf;
+            tmj_new_command_available <= 1;
+            tmj_last_from_user_ram_write_addr <= tmj_from_user_ram_write_addr;
+         end
+      end
+
+      if(tmj_ir_clk == 2 && tmj_shift_dr_clk) begin
+         tmj_read_data_ack <= 0;
+
+         if(tmj_read_data_shifter_count != 0) begin
+            tmj_tdo <= tmj_read_data_shifter[0];
+            tmj_read_data_shifter[TMJ_MAX_TO_USER_PORT_WIDTH-1:0] <= tmj_read_data_shifter[TMJ_MAX_TO_USER_PORT_WIDTH:1];
+            tmj_read_data_shifter_count <= tmj_read_data_shifter_count - 1;
+         end
+
+         else if(tmj_read_data_bit_count != 0) begin
+            tmj_tdo <= tmj_read_data[0];
+            tmj_read_data_shifter[TMJ_MAX_TO_USER_PORT_WIDTH] <= 1'b0;
+            tmj_read_data_shifter[TMJ_MAX_TO_USER_PORT_WIDTH-1:0] <= tmj_read_data[TMJ_MAX_TO_USER_PORT_WIDTH:1];
+            tmj_read_data_shifter_count <= tmj_read_data_bit_count - 1;
+            tmj_read_data_ack <= 1;
+         end
+
+         else begin
+            tmj_tdo <= tmj_read_data[0];
+         end
+
+      end
+      else begin
+         tmj_tdo <= tmj_bypass_reg;
+      end
+   
+      tmj_bypass_reg <= tmj_tdi_clk;
+   
+   end
+
+   tmj_bitflip_clk_delay2 <= tmj_bitflip_clk_delay1;
+   tmj_bitflip_clk_delay1 <= tmj_bitflip_clk;
+
+   tmj_ir_clk <= tmj_ir;
+   tmj_tdi_clk <= tmj_tdi;
+   tmj_shift_dr_clk <= tmj_shift_dr;
+   tmj_e1dr_clk <= tmj_e1dr;
+   tmj_bitflip_clk <= tmj_bitflip_tck;
+
+end
+
+
+always @(posedge tmj_tck) begin
+   tmj_bitflip_tck <= !tmj_bitflip_tck;
+end
+
+
+
+virtual1   virtual1_inst (
+//   .ir_out ( ),
+   .tdo ( tmj_tdo),
+   .ir_in ( tmj_ir ),
+   .tck ( tmj_tck ),
+   .tdi ( tmj_tdi ),
+   .virtual_state_cdr ( tmj_capture_dr ),
+//   .virtual_state_cir ( ),
+   .virtual_state_e1dr ( tmj_e1dr ),
+//   .virtual_state_e2dr ( virtual_state_e2dr_sig ),
+//   .virtual_state_pdr ( virtual_state_pdr_sig ),
+   .virtual_state_sdr ( tmj_shift_dr )
+//   .virtual_state_udr ( update_dr ),
+//   .virtual_state_uir ( )
+   );
+
+endmodule

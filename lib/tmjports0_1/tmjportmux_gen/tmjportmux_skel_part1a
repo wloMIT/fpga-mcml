@@ -1,0 +1,67 @@
+
+parameter TMJ_PORT_ADDRESS_WIDTH = 6;
+parameter TMJ_TRANSFER_COUNT_WIDTH = 12;
+parameter TMJ_SIGNATURE_WIDTH = 8;
+parameter TMJ_ID_WIDTH = 8;
+/* Pad the command out to the nearest nibble - 36 bits for now */
+parameter TMJ_COMMAND_WIDTH = (TMJ_SIGNATURE_WIDTH
+                        + TMJ_ID_WIDTH
+                        + TMJ_TRANSFER_COUNT_WIDTH
+                        + TMJ_PORT_ADDRESS_WIDTH + 1 + 1);
+
+reg tmj_command_in_progress, tmj_new_command_available, tmj_send_nack;
+
+reg [TMJ_PORT_ADDRESS_WIDTH-1:0] tmj_port_address;
+reg tmj_write_command;
+
+reg [TMJ_TRANSFER_COUNT_WIDTH-1:0] tmj_values_to_transfer;
+
+reg [TMJ_MAX_FROM_USER_PORT_WIDTH-1:0] tmj_write_data;
+reg [TMJ_MAX_TO_USER_PORT_WIDTH:0] tmj_read_data, tmj_read_data_shifter;
+reg [14:0] tmj_write_data_bit_count, tmj_read_data_bit_count, tmj_read_data_shifter_count, tmj_port_data_width;
+reg [14:0] tmj_write_data_bit_count_delay1, tmj_write_data_bit_count_delay2;
+reg tmj_data_accepted, tmj_data_ready, tmj_read_data_ack;
+
+reg [TMJ_COMMAND_WIDTH-1:0] tmj_from_user_buf;
+reg [TMJ_COMMAND_WIDTH-1:0] tmj_new_command;
+
+
+parameter TMJ_FROM_USER_RAM_END = 8191;
+reg tmj_from_user_ram_data, tmj_from_user_ram_we;
+reg signed [12:0] tmj_from_user_ram_read_addr, tmj_from_user_ram_write_addr;
+wire tmj_from_user_ram_q;
+
+simple_dual_port_ram_single_clock tmj_from_user_ram(
+   .data(tmj_from_user_ram_data),
+   .read_addr(tmj_from_user_ram_read_addr),
+   .write_addr(tmj_from_user_ram_write_addr),
+   .we(tmj_from_user_ram_we),
+   .clk(XXXclkXXX),
+   .q(tmj_from_user_ram_q)
+   );
+
+reg signed [12:0] tmj_last_from_user_ram_read_addr, tmj_last_from_user_ram_write_addr;
+
+always @(posedge XXXclkXXX) begin
+
+   if(!tmj_command_in_progress) begin
+
+      /* Valid commands have hex "AC" in the signature field.  We also see spurious commands
+       * from the virtual jtag interface, and this lets us ignore them.
+       */
+
+      if(tmj_new_command_available) begin
+         tmj_send_nack <= 1;
+         if (tmj_new_command[TMJ_COMMAND_WIDTH - 1 : TMJ_COMMAND_WIDTH - TMJ_SIGNATURE_WIDTH] == 8'hAC) begin
+
+            tmj_command_in_progress <= 1;
+            tmj_values_to_transfer <= tmj_new_command[TMJ_TRANSFER_COUNT_WIDTH-1:0];
+            tmj_write_command <= tmj_new_command[TMJ_COMMAND_WIDTH - TMJ_SIGNATURE_WIDTH - TMJ_ID_WIDTH - 2];
+            tmj_write_data_bit_count <= 0;
+            tmj_write_data_bit_count_delay1 <= 0;
+            tmj_write_data_bit_count_delay2 <= 0;
+            tmj_last_from_user_ram_read_addr <= tmj_last_from_user_ram_write_addr + 1;
+   
+            tmj_port_address = tmj_new_command[TMJ_COMMAND_WIDTH - TMJ_SIGNATURE_WIDTH - TMJ_ID_WIDTH - 3
+                                      :TMJ_COMMAND_WIDTH - TMJ_SIGNATURE_WIDTH - TMJ_ID_WIDTH - 2 - TMJ_PORT_ADDRESS_WIDTH];
+      

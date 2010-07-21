@@ -1,0 +1,20 @@
+            if(tmj_data_ready) begin
+               tmj_read_data[0] <= 1;
+               tmj_read_data_bit_count <= tmj_port_data_width + 1;
+            end
+            else begin
+               /* Send an empty word, if the user circuit isn't ready
+                * in time.
+                */
+               tmj_read_data[0] <= 0;
+               tmj_read_data_bit_count <= tmj_port_data_width + 1;
+            end
+         
+            if(tmj_values_to_transfer == 1) begin
+               tmj_command_in_progress <= 0;
+            end
+
+            tmj_values_to_transfer <= tmj_values_to_transfer - 1;
+         end
+      end
+   end

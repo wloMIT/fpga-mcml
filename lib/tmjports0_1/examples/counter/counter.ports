@@ -1,0 +1,2 @@
+# Name	direction	bits	Handshake_from_circuit	Handshake_from_SUN
+result	o	32	count_ready	want_count
