@@ -1,0 +1,30 @@
+         end
+      end
+   end
+
+   else begin
+      if(tmj_write_command) begin
+
+         // The user is writing to the circuit
+
+         if(tmj_send_nack) begin
+            tmj_read_data[0] <= 0;
+            tmj_read_data_bit_count <= 1;
+            tmj_send_nack <= 0;
+         end
+
+         if(tmj_write_data_bit_count == 0) begin
+            tmj_from_user_ram_read_addr = tmj_last_from_user_ram_read_addr
+                                        - (tmj_values_to_transfer * tmj_port_data_width);
+
+            if(tmj_from_user_ram_read_addr < 0) begin
+               tmj_from_user_ram_read_addr = tmj_from_user_ram_read_addr
+                                              + (TMJ_FROM_USER_RAM_END + 1);
+            end
+         end
+
+         if(tmj_write_data_bit_count == tmj_port_data_width) begin
+
+            tmj_data_accepted = 0;
+      
+            if(tmj_write_data_bit_count_delay2 == tmj_port_data_width) begin

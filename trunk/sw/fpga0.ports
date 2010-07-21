@@ -1,0 +1,5 @@
+# Name	direction	bits	Handshake_from_circuit	Handshake_from_SUN
+result	o	32	result_ready	want_result
+constants	i	32	want_constants	constants_ready
+reset	i	1
+done	o	1

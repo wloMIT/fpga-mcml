@@ -1,0 +1,44 @@
+               if(tmj_data_accepted) begin
+         
+                  if(tmj_values_to_transfer == 1) begin
+                     tmj_command_in_progress <= 0;
+                     tmj_read_data[0] <= 1;
+                     tmj_read_data_bit_count <= 1;
+                  end
+         
+                  tmj_values_to_transfer <= tmj_values_to_transfer - 1;
+                  tmj_write_data_bit_count <= 0;
+               end
+               else begin
+                  /* Otherwise, we do nothing until the circuit is ready to
+                   * accept the data.  If the user asks for an acknowledgement,
+                   * the wrapper will send 0.  There are no timeouts.
+                   */
+               end
+            end
+         end
+         else begin
+            // Read the next bit of the current data word from the ram
+            tmj_write_data_bit_count <= tmj_write_data_bit_count + 1;
+            tmj_from_user_ram_read_addr <= tmj_from_user_ram_read_addr + 1;
+         end
+
+         if(tmj_write_data_bit_count_delay2 != tmj_port_data_width) begin
+            tmj_write_data <= {tmj_from_user_ram_q,
+                        tmj_write_data[TMJ_MAX_FROM_USER_PORT_WIDTH-1:1]};
+         end
+
+         tmj_write_data_bit_count_delay1 <= tmj_write_data_bit_count;
+         tmj_write_data_bit_count_delay2 <= tmj_write_data_bit_count_delay1;
+      end
+
+      else begin
+
+         // The user is reading from the circuit
+
+         if((tmj_values_to_transfer != 0)
+                 && !tmj_read_data_ack
+                 && (tmj_read_data_bit_count == 0)) begin
+   
+            tmj_data_ready = 0;
+

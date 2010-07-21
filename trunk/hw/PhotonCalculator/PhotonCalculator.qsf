@@ -1,0 +1,75 @@
+# Copyright (C) 1991-2007 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, Altera MegaCore Function License 
+# Agreement, or other applicable license agreement, including, 
+# without limitation, that your use is for the sole purpose of 
+# programming logic devices manufactured by Altera and sold by 
+# Altera or its authorized distributors.  Please refer to the 
+# applicable agreement for further details.
+
+
+# The default values for assignments are stored in the file
+#		PhotonCalculator_assignment_defaults.qdf
+# If this file doesn't exist, and for assignments not listed, see file
+#		assignment_defaults.qdf
+
+# Altera recommends that you do not modify this file. This
+# file is updated automatically by the Quartus II software
+# and any changes you make may be lost or overwritten.
+
+
+set_global_assignment -name FAMILY "Stratix III"
+set_global_assignment -name DEVICE EP3SL150F1152C3ES
+set_global_assignment -name TOP_LEVEL_ENTITY PhotonCalculator
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 7.2
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "23:40:32  APRIL 19, 2009"
+set_global_assignment -name LAST_QUARTUS_VERSION 7.2
+set_global_assignment -name USE_GENERATED_PHYSICAL_CONSTRAINTS OFF -section_id eda_palace
+set_instance_assignment -name PARTITION_HIERARCHY no_file_for_top_partition -to | -section_id Top
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_COLOR 2147039 -section_id Top
+set_global_assignment -name LL_ROOT_REGION ON -section_id "Root Region"
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id "Root Region"
+set_global_assignment -name VERILOG_FILE components/Boundary/mult_signed_32.v
+set_global_assignment -name VERILOG_FILE components/Boundary/mult_signed_32_bc.v
+set_global_assignment -name VERILOG_FILE components/Boundary/signed_div_20.v
+set_global_assignment -name VERILOG_FILE components/Boundary/signed_div_30.v
+set_global_assignment -name VERILOG_FILE components/Roulette/Roulette.v
+set_global_assignment -name VERILOG_FILE components/Rotation_TransmitReflect/add_32b.v
+set_global_assignment -name VERILOG_FILE components/Rotation_TransmitReflect/cosp_ROM.v
+set_global_assignment -name VERILOG_FILE components/Rotation_TransmitReflect/cost_ROM.v
+set_global_assignment -name VERILOG_FILE components/Rotation_TransmitReflect/Div_64b.v
+set_global_assignment -name VERILOG_FILE components/Rotation_TransmitReflect/downFres_ROM.v
+set_global_assignment -name VERILOG_FILE components/Rotation_TransmitReflect/Memory_Wrapper.v
+set_global_assignment -name VERILOG_FILE components/Rotation_TransmitReflect/Mult_32b.v
+set_global_assignment -name VERILOG_FILE components/Rotation_TransmitReflect/Reflector.v
+set_global_assignment -name VERILOG_FILE components/Rotation_TransmitReflect/Scatterer.v
+set_global_assignment -name VERILOG_FILE components/Rotation_TransmitReflect/ScattererReflectorWrapper.v
+set_global_assignment -name VERILOG_FILE components/Rotation_TransmitReflect/sinp_ROM.v
+set_global_assignment -name VERILOG_FILE components/Rotation_TransmitReflect/sint_ROM.v
+set_global_assignment -name VERILOG_FILE components/Rotation_TransmitReflect/Sqrt_64b.v
+set_global_assignment -name VERILOG_FILE components/Rotation_TransmitReflect/sub_32b.v
+set_global_assignment -name VERILOG_FILE components/Rotation_TransmitReflect/sub_64b.v
+set_global_assignment -name VERILOG_FILE components/Rotation_TransmitReflect/upFres_ROM.v
+set_global_assignment -name VERILOG_FILE components/RNG/rng.v
+set_global_assignment -name VERILOG_FILE components/Register_pipeline/Register_pipeline.v
+set_global_assignment -name VERILOG_FILE components/Mover/Move.v
+set_global_assignment -name VERILOG_FILE components/LogCalc/Log_mantissa.v
+set_global_assignment -name VERILOG_FILE components/LogCalc/LogCalc.v
+set_global_assignment -name VERILOG_FILE components/Hop/Hop.v
+set_global_assignment -name VERILOG_FILE components/FluenceUpdate/dual.v
+set_global_assignment -name VERILOG_FILE components/FluenceUpdate/dual2.v
+set_global_assignment -name VERILOG_FILE components/FluenceUpdate/dual3.v
+set_global_assignment -name VERILOG_FILE components/FluenceUpdate/FluenceUpdate.v
+set_global_assignment -name VERILOG_FILE components/Boundary/Boundary.v
+set_global_assignment -name VERILOG_FILE components/Boundary/Boundary_pipeline.v
+set_global_assignment -name VERILOG_FILE components/DropSpinWrapper.v
+set_global_assignment -name VERILOG_FILE PhotonCalculator.v
+set_global_assignment -name ENABLE_ADVANCED_IO_TIMING ON
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
