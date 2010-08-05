@@ -35,7 +35,7 @@ To replace the ports package with another method for communication between the h
 
 [https://fpga-mcml.googlecode.com/svn/wiki/images/flow3.png] 
 
-== 5. Download our software package ==
+== 5. Source Code Release ==
 ----
 Download and unarchive: [http://fpga-mcml.googlecode.com/files/public_release.zip FPGA-MCML]
 
