@@ -35,15 +35,19 @@ To replace the ports package with another method for communication between the h
 
 [https://fpga-mcml.googlecode.com/svn/wiki/images/flow3.png] 
 
+== 5. Download our software package ==
+----
+Download and unarchive: [http://fpga-mcml.googlecode.com/files/public_release.zip FPGA-MCML]
 
-== 5. Building the Hardware == 
+
+== 6a. Building the Hardware == 
 ----
   # Type *cd /hw/top*
   # Edit the Makefile, and change the *QUARTUS_PATH* variable to the location of the   quartus_sh script
   # Type *make*
   # This creates a file named *mcml_hw.sof*, which can be used to program the FPGA.
 
-== 6. Building the Software == 
+== 6b. Building the Software == 
 ----
   # Type *cd /sw*
   # Type *make*
