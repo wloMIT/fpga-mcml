@@ -18,6 +18,6 @@ The main function can be found in the file mcml_tm4.c.  This file calls function
 
 == 2. Software-Hardware Communication == 
 ----
-The communication with hardware is done through a hardware library known as the ports package (linux_tmjports_old.a).  This package uses the USB blaster to communicate with the DE3 board.  Unfortunately, when used with the DE3 board, this package has known issues that result in slow transfer rates.  However, the TM4 package may be replaced by any host-board communication without affecting the main portion of the design: the PhotonCalculator (refer to the next section).
+The communication with hardware is done through a hardware library known as the ports package (linux_tmjports_old.a).  This package uses the USB blaster to communicate with the DE3 board.  Unfortunately, when used with the DE3 board, this package has known issues that result in slow transfer rates.  However, the TM4 package may be replaced by any host-board communication without affecting the main portion of the design: the Photon Calculator (refer to the next section).
 
 This package requires the use of a configuration file which we have called the mcml_hw.ports file.  This file is included in the /hw directory.  For more information about how the ports package works, download [http://www.eecg.toronto.edu/~tm4/ports.pdf ports.pdf].
