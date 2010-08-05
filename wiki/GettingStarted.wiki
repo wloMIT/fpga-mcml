@@ -34,3 +34,17 @@ The Photon Calculator is the main component in this design.  This is where the a
 To replace the ports package with another method for communication between the host computer and the FPGA device, the mcml_hw and skeleton blocks must be replaced.  Note that some of the logic contained in the skeleton must be ported to the new solution, as the Photon Calculator control logic and the fanout logic must be maintained.
 
 [https://fpga-mcml.googlecode.com/svn/wiki/images/flow3.png] 
+
+
+== 5. Building the Hardware == 
+----
+1) cd /hw/top
+2) edit the Makefile, and change the QUARTUS_PATH variable to the location of the quartus_sh script
+3) "make"
+4) This creates a file named mcml_hw.sof, which can be used to program the FPGA.
+
+== 6. Building the Ssoftware == 
+----
+1) cd /sw
+2) "make"
+3) This creates an executable called mcml_tm4 which can be run, and communicates with the hardware
