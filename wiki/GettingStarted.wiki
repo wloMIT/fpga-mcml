@@ -37,7 +37,8 @@ To replace the ports package with another method for communication between the h
 
 == 5. Source Code Release ==
 ----
-Download and unarchive: [http://code.google.com/p/fpga-mcml/downloads/list FPGA-MCML]
+Download and unarchive: [http://code.google.com/p/fpga-mcml/downloads/list FPGA-MCML]. 
+
 Download the two related papers for further information. 
 
 == 6a. Building the Hardware == 
