@@ -1,4 +1,5 @@
 #summary A step-by-step guide to use this software
+#labels Featured
 #sidebar SiteMap
 
 <wiki:toc max_depth="2" />
