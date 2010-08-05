@@ -1,7 +1,9 @@
-#summary A step-by-step guide to use this software
+#summary Getting Started Guide
 #labels Featured
 #sidebar SiteMap
 
 <wiki:toc max_depth="2" />
 
-= Introduction =
+== 1. Top-Level Simulation Flow == 
+----
+The host computer runs the software portion of the MCML simulation, while the hardware-accelerated portion is run on the FPGA platform, as shown.
