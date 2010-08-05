@@ -8,4 +8,4 @@
 ----
 The host computer runs the software portion of the MCML simulation, while the hardware-accelerated portion is run on the FPGA platform, as shown.
 
-[https://fpga-mcml.googlecode.com/svn/wiki/images/flow1a.png] 
+[https://fpga-mcml.googlecode.com/svn/wiki/images/flow1b.png] 
