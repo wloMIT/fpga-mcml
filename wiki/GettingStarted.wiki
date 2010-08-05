@@ -14,10 +14,23 @@ The host computer runs the software portion of the MCML simulation, while the ha
 ----
 The main function can be found in the file mcml_tm4.c.  This file calls functions to do the pre-simulation calculations that are handled in software.  The definition of the main structures used in the software flow can be found in mcml.h.
 
+*NOTE*: The original platform used for this design was called the tm4.  Hence, some of the file and variable names contain tm4, referring to this device.
+
 [https://fpga-mcml.googlecode.com/svn/wiki/images/flow2b.png] 
 
-== 2. Software-Hardware Communication == 
+== 3. Software-Hardware Communication == 
 ----
 The communication with hardware is done through a hardware library known as the ports package (linux_tmjports_old.a).  This package uses the USB blaster to communicate with the DE3 board.  Unfortunately, when used with the DE3 board, this package has known issues that result in slow transfer rates.  However, the TM4 package may be replaced by any host-board communication without affecting the main portion of the design: the Photon Calculator (refer to the next section).
 
 This package requires the use of a configuration file which we have called the mcml_hw.ports file.  This file is included in the /hw directory.  For more information about how the ports package works, download [http://www.eecg.toronto.edu/~tm4/ports.pdf ports.pdf].
+
+
+== 4. Hardware Flow == 
+----
+The hardware flow consists of three main components: mcml_hw, skeleton, and Photon Calculator.  The mcml_hw contains the necessary control signals and components to communicate with software.  The skeleton contains the control logic to control the flow of data from the software to the hardware.  It also starts and stops the simulation.  Finally, the skeleton fans out the input constants from a 32-bit bus to the appropriate signals for use within the FPGA device.
+
+The Photon Calculator is the main component in this design.  This is where the absorption array is calculated, which is the computationally complex portion of the mcml calculation.  The absorption array can be used to calculate the fluence distribution.
+
+To replace the ports package with another method for communication between the host computer and the FPGA device, the mcml_hw and skeleton blocks must be replaced.  Note that some of the logic contained in the skeleton must be ported to the new solution, as the Photon Calculator control logic and the fanout logic must be maintained.
+
+[https://fpga-mcml.googlecode.com/svn/wiki/images/flow3.png] 
